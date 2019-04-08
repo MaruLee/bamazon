@@ -16,12 +16,12 @@ CREATE TABLE products (
 
 INSERT INTO products (product_name, department_name, price, stock_quantity) 
 	VALUES 
-		("Zelda's Master Sword", "Weapons", 13000, 19), 
-		("Cloud's Buster Sword", "Weapons", 777, 15), 
-		("Half-Life 2's Gravity Gun", "Weapons", 333, 2), 
-		("Portal's Portal Gun", "Weapons", 1234, 3), 
-		("Minecraft's Diamond Armor", "Armor", 35000, 1),
-		("World of Warcraft's Tier 5 Warlock Armor", "Armor", 400, 5),
+		("Master Sword", "Weapons", 13000, 19), 
+		("Buster Sword", "Weapons", 777, 15), 
+		("Gravity Gun", "Weapons", 333, 2), 
+		("Portal Gun", "Weapons", 1234, 3), 
+		("Diamond Armor", "Armor", 35000, 1),
+		("Tier 5 Warlock Armor", "Armor", 400, 5),
         ("Darth Vader's Armor", "Armor", 1977, 9),
         ("Save Crystals", "Helpful", 57, 15),
         ("Blue Shell", "Helpful", 64, 8),
