@@ -1,5 +1,7 @@
 SET SQL_SAFE_UPDATES = 0;
 
+DROP DATABASE IF EXISTS bamazon;
+
 CREATE DATABASE bamazon;
 
 USE bamazon;

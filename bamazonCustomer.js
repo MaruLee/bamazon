@@ -21,22 +21,64 @@ function initialMenu() {
     buyPrompt();
 };
 
-
+//mysql query pulls list of items
 //inquirer prompt asks user for id and quantity of the item they wish to buy
-//mysql query shows item list: checking stock and the total cost for the user while updating the stock amount after a transaction. 
+//query checks stock and totals the cost for the user, then subtracts the amount purchased from the DB
 function buyPrompt() {
-    con.query('SELECT * FROM products;', function (error, results) {
+        con.query('SELECT * FROM products;', function (error, results) {
         if (error) throw error;
-        for (let i = 0; i < results.length; i++) {
-            console.log(
-                "item no.: "
-                + results[i].item_id + " | "
-                + results[i].product_name + " | "
-                + results[i].department_name + " | Bells"
-                + results[i].price + " | "
-                + results[i].stock_quantity);
-        };
-    });
+        var promise1 = new Promise(function(resolve, reject) {
+            displayInventory(setInventory(results));
+            resolve();
+        })
+        promise1.then(function() {
+            askQuestions();
+        })
+    })
+};
+
+//If another purchase is to be made 
+function anotherBuy() {
+    inquirer.prompt([
+        {
+            name: "answer",
+            type: "list",
+            message: "Can I get you anything else?",
+            choices: ["Yes", "No"]
+        }
+    ])
+        .then(function (userInput) {
+            if (userInput.answer == "Yes") {
+                buyPrompt();
+            }
+            else {
+                console.log("Thank you, enjoy your adventure!");
+            }
+        })
+};
+
+function setInventory(queryResults) {
+    var inventory = [];
+    for (let i = 0; i < queryResults.length; i++) {
+        inventory.push(queryResults[i]);
+    }
+    return inventory;
+}
+
+function displayInventory(inventory) {
+    inventory.forEach(function (element) {
+        console.log(
+            "item no.: "
+            + element.item_id + " | "
+            + element.product_name + " | "
+            + element.department_name + " | Bells "
+            + element.price + " | "
+            + element.stock_quantity
+        );
+    })
+}
+
+function askQuestions() {
     inquirer.prompt([
         {
             name: "item_id",
@@ -78,30 +120,10 @@ function buyPrompt() {
                                 });
                             }
                             else {
-                                anotherBuy;
+                                anotherBuy();
                             }
                         })
                 }
             })
         })
-};
-
-//If another purchase is to be made 
-function anotherBuy() {
-    inquirer.prompt([
-        {
-            name: "answer",
-            type: "list",
-            message: "Can I get you anything else?",
-            choices: ["Yes", "No"]
-        }
-    ])
-        .then(function (userInput) {
-            if (userInput.answer == "Yes") {
-                buyPrompt();
-            }
-            else {
-                console.log("Thank you, enjoy your adventure!");
-            }
-        })
-};
+}
